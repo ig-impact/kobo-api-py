@@ -1,0 +1,22 @@
+[project]
+name = "kobo-api-py"
+version = "0.1.0"
+description = "A Python wrapper for the KoBoToolbox API v2"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "dotenv>=0.9.9",
+    "loguru>=0.7.3",
+    "pytest>=8.4.1",
+    "requests>=2.32.4",
+    "requests-cache>=1.2.1",
+    "requests-mock>=1.12.1",
+]
+license = {text = "MIT"}
+authors = [
+    {name = "ig-impact", email = "iyed.ghedamsi@impact-initiatives.org"}
+]
+maintainers = [
+    {name = "ig-impact", email = "iyed.ghedamsi@impact-initiatives.org"}
+]
+keywords = ["kobotoolbox", "api", "survey", "data", "forms"]
