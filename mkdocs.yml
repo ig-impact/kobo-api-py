@@ -1,0 +1,35 @@
+site_name: Kobo API Python Client
+site_url: https://ig-impact.github.io/kobo-api-py/
+repo_url: https://github.com/ig-impact/kobo-api-py
+repo_name: ig-impact/kobo-api-py
+
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.sections
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: true
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - codehilite
+  - footnotes
+  - def_list
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Usage: usage.md
+  - API Reference: api.md
+  - Changelog: changelog.md
