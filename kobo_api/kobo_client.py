@@ -84,6 +84,13 @@ class KoboClient:
         response.raise_for_status()
         return response.json()
 
+    def clear_cache(self) -> None:
+        """Clear the entire cache."""
+        if self.cache_enabled and hasattr(self.session, "cache"):
+            assert isinstance(self.session, requests_cache.CachedSession)
+            self.session.cache.clear()
+            logger.info("Cache cleared")
+
     def ping(self) -> bool:
         """Check if the Kobo server is reachable."""
         try:

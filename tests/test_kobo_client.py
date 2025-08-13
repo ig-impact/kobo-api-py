@@ -194,6 +194,24 @@ class TestKoboClientCaching:
         assert client.cache_enabled is False
         assert not hasattr(client.session, "cache")
 
+    def test_clear_cache_with_cache_enabled(self):
+        """Test cache clearing when cache is enabled."""
+        client = KoboClient(
+            server_url="https://test.com", token="test_token", cache=True
+        )
+
+        # Should not raise an error
+        client.clear_cache()
+
+    def test_clear_cache_with_cache_disabled(self):
+        """Test cache clearing when cache is disabled."""
+        client = KoboClient(
+            server_url="https://test.com", token="test_token", cache=False
+        )
+
+        # Should not raise an error even when cache is disabled
+        client.clear_cache()
+
 
 class TestUrlBuilding:
     """Test URL building functionality."""
