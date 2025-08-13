@@ -10,3 +10,6 @@ wheels/
 .venv
 *.sqlite
 .env
+
+# Documentation build artifacts
+site/
