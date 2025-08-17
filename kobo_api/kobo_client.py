@@ -9,7 +9,7 @@ import requests_cache
 from dotenv import dotenv_values
 from loguru import logger
 from requests.adapters import HTTPAdapter
-from urllib3 import Retry
+from urllib3.util.retry import Retry
 
 
 class KoboClient:
