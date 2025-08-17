@@ -54,8 +54,8 @@ class TestKoboClientInitialization:
 
             client = KoboClient()
 
-            assert client.server_url == valid_env_values["URL"]
-            assert client.token == valid_env_values["TOKEN"]
+            assert client.server_url == valid_env_values["KOBO_SERVER"]
+            assert client.token == valid_env_values["KOBO_TOKEN"]
             mock_dotenv.assert_called_once_with(".env")
 
     @patch("kobo_api.kobo_client.dotenv_values")
@@ -70,14 +70,14 @@ class TestKoboClientInitialization:
             client = KoboClient(server_url=override_url)
 
             assert client.server_url == override_url
-            assert client.token == valid_env_values["TOKEN"]  # From env
+            assert client.token == valid_env_values["KOBO_TOKEN"]
 
     @pytest.mark.parametrize(
         "env_values,missing_param,error_message",
         [
             ({}, "server_url", "Server URL must be provided"),
-            ({"URL": "https://test.com"}, "token", "Token must be provided"),
-            ({"TOKEN": "abc123"}, "server_url", "Server URL must be provided"),
+            ({"KOBO_SERVER": "https://test.com"}, "token", "Token must be provided"),
+            ({"KOBO_TOKEN": "abc123"}, "server_url", "Server URL must be provided"),
         ],
     )
     @patch("kobo_api.kobo_client.dotenv_values")

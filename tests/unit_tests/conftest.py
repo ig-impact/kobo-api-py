@@ -20,7 +20,7 @@ def valid_config():
 @pytest.fixture
 def valid_env_values():
     """Valid environment values for dotenv mocking."""
-    return {"URL": "https://env.kobo.com", "TOKEN": "env_token_456"}
+    return {"KOBO_SERVER": "https://env.kobo.com", "KOBO_TOKEN": "env_token_456"}
 
 
 @pytest.fixture

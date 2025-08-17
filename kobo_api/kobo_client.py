@@ -21,12 +21,12 @@ class KoboClient:
         cache_ttl: int = 36000,
     ) -> None:
         config = dotenv_values(".env")
-        server_url = server_url or config.get("URL")
+        server_url = server_url or config.get("KOBO_SERVER")
         if server_url is None:
             raise ValueError(
                 "Server URL must be provided either in .env file or as an argument."
             )
-        token = token or config.get("TOKEN")
+        token = token or config.get("KOBO_TOKEN")
         if token is None:
             raise ValueError(
                 "Token must be provided either in .env file or as an argument."
