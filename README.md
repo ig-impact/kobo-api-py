@@ -4,13 +4,23 @@
 [![Test Status](https://github.com/ig-impact/kobo-api-py/actions/workflows/python-package.yml/badge.svg)](https://github.com/ig-impact/kobo-api-py/actions/workflows/python-package.yml)
 [![Python Version](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
 
-A Python client for interacting with the KoboToolbox  V2 API, providing convenient methods for retrieving, submitting, and managing KoboToolbox project and form data.
+A Python client for interacting with the KoboToolbox  V2 API, providing
+convenient methods for retrieving, submitting, and managing KoboToolbox project
+and form data.
 
 ---
 
 ## Installation
 
 This package is not available on PyPI.
+
+### Install latest from `main`
+
+```bash
+pip install git+https://github.com/ig-impact/kobo-api-py.git
+```
+
+### Development install (recommended for contributors)
 
 Clone the repository and install locally:
 
@@ -24,7 +34,8 @@ pip install -r requirements.txt
 
 ## Usage
 
-You can use the `KoboClient` class to interact with the KoboToolbox API. You must provide your server URL and API token via arguments or a `.env` file.
+You can use the `KoboClient` class to interact with the KoboToolbox API. You
+must provide your server URL and API token via arguments or a `.env` file.
 
 ```python
 from kobo_api import KoboClient
@@ -46,8 +57,8 @@ print(assets)
 You can also use a `.env` file in your project root:
 
 ```sh
-URL=https://kf.kobotoolbox.org
-TOKEN=YOUR_API_TOKEN
+KOBO_SERVER=https://kf.kobotoolbox.org
+KOBO_TOKEN=YOUR_API_TOKEN
 ```
 
 ---
