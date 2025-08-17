@@ -15,7 +15,9 @@ class TestInternalGet:
             mock_session.get.return_value = mock_resp
             mock_make_sess.return_value = mock_session
 
-            client = KoboClient(server_url="https://test.com", token="t", cache=False)
+            client = KoboClient(
+                server_url="https://test.com", token="t", cache_enabled=False
+            )
             res = client._get("api/v2/assets", params={"limit": 10}, timeout=5)
 
             assert res == {"ok": True}
@@ -42,7 +44,9 @@ class TestInternalGet:
             mock_session.get.return_value = mock_resp
             mock_make_sess.return_value = mock_session
 
-            client = KoboClient(server_url="https://test.com/", token="t", cache=False)
+            client = KoboClient(
+                server_url="https://test.com/", token="t", cache_enabled=False
+            )
             client._get(path)
 
             mock_session.get.assert_called_once_with(expected)
@@ -55,6 +59,8 @@ class TestInternalGet:
             mock_session.get.return_value = mock_resp
             mock_make_sess.return_value = mock_session
 
-            client = KoboClient(server_url="https://test.com", token="t", cache=False)
+            client = KoboClient(
+                server_url="https://test.com", token="t", cache_enabled=False
+            )
             with pytest.raises(requests.HTTPError):
                 client._get("api/v2/assets")

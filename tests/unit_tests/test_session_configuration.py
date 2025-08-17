@@ -9,7 +9,7 @@ class TestSessionConfiguration:
         # Default cache_ttl in __init__ is 36000
         with patch("kobo_api.kobo_client.requests_cache.CachedSession") as mock_cached:
             mock_cached.return_value = Mock()
-            _ = KoboClient(server_url="https://test.com", token="t", cache=True)
+            _ = KoboClient(server_url="https://test.com", token="t", cache_enabled=True)
             mock_cached.assert_called_once_with(
                 "kobo_cache",
                 expire_after=36000,
@@ -20,7 +20,10 @@ class TestSessionConfiguration:
         with patch("kobo_api.kobo_client.requests_cache.CachedSession") as mock_cached:
             mock_cached.return_value = Mock()
             _ = KoboClient(
-                server_url="https://test.com", token="t", cache=True, cache_ttl=600
+                server_url="https://test.com",
+                token="t",
+                cache_enabled=True,
+                cache_ttl=600,
             )
             mock_cached.assert_called_once_with(
                 "kobo_cache",
@@ -31,7 +34,9 @@ class TestSessionConfiguration:
     def test_regular_session_creation_when_cache_disabled(self):
         with patch("kobo_api.kobo_client.requests.Session") as mock_session_cls:
             mock_session_cls.return_value = Mock()
-            _ = KoboClient(server_url="https://test.com", token="t", cache=False)
+            _ = KoboClient(
+                server_url="https://test.com", token="t", cache_enabled=False
+            )
             mock_session_cls.assert_called_once()
 
     def test_retry_and_adapter_configuration(self):
@@ -51,7 +56,9 @@ class TestSessionConfiguration:
             mock_adapter = Mock()
             mock_adapter_cls.return_value = mock_adapter
 
-            _ = KoboClient(server_url="https://test.com", token="t", cache=False)
+            _ = KoboClient(
+                server_url="https://test.com", token="t", cache_enabled=False
+            )
 
             # Retry configuration matches implementation
             mock_retry_cls.assert_called_once_with(
@@ -80,7 +87,9 @@ class TestSessionConfiguration:
             mock_session_cls.return_value = dummy_session
 
             token = "token_123"
-            _ = KoboClient(server_url="https://test.com", token=token, cache=False)
+            _ = KoboClient(
+                server_url="https://test.com", token=token, cache_enabled=False
+            )
 
             expected_headers = {
                 "Authorization": f"Token {token}",

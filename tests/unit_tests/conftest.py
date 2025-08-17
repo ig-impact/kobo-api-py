@@ -13,7 +13,7 @@ def valid_config():
     return {
         "server_url": "https://kobo.test.com",
         "token": "test_token_123",
-        "cache": False,
+        "cache_enabled": False,
     }
 
 

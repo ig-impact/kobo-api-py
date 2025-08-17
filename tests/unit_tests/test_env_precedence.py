@@ -14,7 +14,7 @@ class TestEnvPrecedence:
         client = KoboClient(
             server_url="https://arg.example.com",
             token="arg_token",
-            cache=False,
+            cache_enabled=False,
         )
 
         assert client.server_url == "https://arg.example.com"
@@ -27,6 +27,6 @@ class TestEnvPrecedence:
             "TOKEN": "env_token",
         }
 
-        client = KoboClient(cache=False)
+        client = KoboClient(cache_enabled=False)
         assert client.server_url == "https://env.example.com"
         assert client.token == "env_token"

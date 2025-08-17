@@ -18,12 +18,12 @@ class TestKoboClientInitialization:
             client = KoboClient(
                 server_url=valid_config["server_url"],
                 token=valid_config["token"],
-                cache=valid_config["cache"],
+                cache_enabled=valid_config["cache_enabled"],
             )
 
             assert client.server_url == valid_config["server_url"]
             assert client.token == valid_config["token"]
-            assert client.cache_enabled == valid_config["cache"]
+            assert client.cache_enabled == valid_config["cache_enabled"]
             mock_make_session.assert_called_once()
 
     @pytest.mark.parametrize(
@@ -41,7 +41,7 @@ class TestKoboClientInitialization:
         with patch.object(KoboClient, "_make_session") as mock_make_session:
             mock_make_session.return_value = Mock()
 
-            client = KoboClient(server_url=input_url, token="test", cache=False)
+            client = KoboClient(server_url=input_url, token="test", cache_enabled=False)
             assert client.server_url == expected_url
 
     @patch("kobo_api.kobo_client.dotenv_values")
@@ -90,9 +90,6 @@ class TestKoboClientInitialization:
         with pytest.raises(ValueError, match=error_message):
             KoboClient()
 
-    # Removed invalid URL validation tests since your implementation doesn't validate URLs
-    # Removed empty token validation test since your implementation allows empty strings
-
     @pytest.mark.parametrize(
         "cache_value,ttl_value",
         [
@@ -109,14 +106,14 @@ class TestKoboClientInitialization:
             kwargs = {
                 "server_url": "https://test.com",
                 "token": "test",
-                "cache": cache_value,
+                "cache_enabled": cache_value,
             }
             if ttl_value is not None:
                 kwargs["cache_ttl"] = ttl_value
 
             client = KoboClient(**kwargs)
 
-            assert client.cache_enabled == cache_value  # Fixed: cache_enabled
+            assert client.cache_enabled == cache_value
 
     def test_authorization_header_construction(self):
         """Test that authorization header is properly constructed."""
@@ -127,13 +124,14 @@ class TestKoboClientInitialization:
             mock_session.headers = {}
             mock_make_session.return_value = mock_session
 
-            client = KoboClient(server_url="https://test.com", token=token, cache=False)
+            client = KoboClient(
+                server_url="https://test.com", token=token, cache_enabled=False
+            )
 
-            # Check headers mapping (not session.headers directly)
             expected_headers = {
                 "Authorization": f"Token {token}",
                 "Accept": "application/json",
-                "User-Agent": "KoboClient/1.0",  # Fixed: actual User-Agent format
+                "User-Agent": "KoboClient/1.0",
             }
 
             # Verify headers are in the client's headers mapping
@@ -150,11 +148,11 @@ class TestKoboClientInitialization:
             mock_make_session.return_value = mock_session
 
             client = KoboClient(
-                server_url="https://test.com", token="test", cache=False
+                server_url="https://test.com", token="test", cache_enabled=False
             )
 
             user_agent = client.headers.get("User-Agent", "")
-            assert user_agent == "KoboClient/1.0"  # Fixed: check actual format
+            assert user_agent == "KoboClient/1.0"
 
     def test_session_initialization(self):
         """Test that session is properly created and stored."""
@@ -162,12 +160,8 @@ class TestKoboClientInitialization:
             mock_session = Mock()
             mock_make_session.return_value = mock_session
 
-            client = KoboClient(
-                server_url="https://test.com", token="test", cache=False
-            )
+            client = KoboClient(server_url="https://test.com", token="test")
 
             # Verify session was created with correct parameters
-            mock_make_session.assert_called_once_with(
-                cache=False, cache_ttl=36000
-            )  # Default TTL
+            mock_make_session.assert_called_once_with(cache_ttl=36000)
             assert client.session is mock_session

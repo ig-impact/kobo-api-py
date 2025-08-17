@@ -15,7 +15,10 @@ class TestSessionManagement:
         mock_cached_session_class.return_value = mock_session
 
         client = KoboClient(
-            server_url="https://test.com", token="test", cache=True, cache_ttl=600
+            server_url="https://test.com",
+            token="test",
+            cache_enabled=True,
+            cache_ttl=600,
         )
 
         # Verify CachedSession was called with correct parameters
@@ -29,7 +32,9 @@ class TestSessionManagement:
         mock_session = Mock()
         mock_session_class.return_value = mock_session
 
-        client = KoboClient(server_url="https://test.com", token="test", cache=False)
+        client = KoboClient(
+            server_url="https://test.com", token="test", cache_enabled=False
+        )
 
         mock_session_class.assert_called_once()
 
@@ -44,7 +49,7 @@ class TestSessionManagement:
 
         with patch("kobo_api.kobo_client.requests.Session"):
             client = KoboClient(
-                server_url="https://test.com", token="test", cache=False
+                server_url="https://test.com", token="test", cache_enabled=False
             )
 
             # Verify Retry configuration matches actual implementation
@@ -68,7 +73,9 @@ class TestSessionManagement:
             mock_session_class.return_value = mock_session
 
             token = "test_token_123"
-            client = KoboClient(server_url="https://test.com", token=token, cache=False)
+            client = KoboClient(
+                server_url="https://test.com", token=token, cache_enabled=False
+            )
 
             # Verify headers were updated on session
             expected_headers = {
@@ -90,7 +97,7 @@ class TestSessionManagement:
                 mock_adapter_class.return_value = mock_adapter
 
                 client = KoboClient(
-                    server_url="https://test.com", token="test", cache=False
+                    server_url="https://test.com", token="test", cache_enabled=False
                 )
 
                 # Verify adapters were mounted

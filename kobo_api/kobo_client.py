@@ -17,7 +17,7 @@ class KoboClient:
         self,
         server_url: str | None = None,
         token: str | None = None,
-        cache: bool = True,
+        cache_enabled: bool = True,
         cache_ttl: int = 36000,
     ) -> None:
         config = dotenv_values(".env")
@@ -34,28 +34,24 @@ class KoboClient:
 
         self.server_url: str = server_url.rstrip("/")  # Normalize URL
         self.token: str = token
-        self.cache_enabled: bool = cache
+        self.cache_enabled: bool = cache_enabled
         self.headers: Mapping[str, str] = {
             "Authorization": f"Token {self.token}",
             "Accept": "application/json",
             "User-Agent": "KoboClient/1.0",
         }
-        self.session: requests.Session = self._make_session(
-            cache=cache, cache_ttl=cache_ttl
-        )
+        self.session: requests.Session = self._make_session(cache_ttl=cache_ttl)
 
-    def _make_session(
-        self, cache: bool = True, cache_ttl: int = 3600
-    ) -> requests.Session:
+    def _make_session(self, cache_ttl: int = 3600) -> requests.Session:
         """Create a requests session with the necessary headers."""
-        if cache:
+        if self.cache_enabled:
             session = requests_cache.CachedSession(
                 "kobo_cache",
                 expire_after=cache_ttl,
                 allowable_codes=(
                     200,
                     404,
-                ),  # Cache 404s to avoid repeated failed requests
+                ),
             )
         else:
             session = requests.Session()

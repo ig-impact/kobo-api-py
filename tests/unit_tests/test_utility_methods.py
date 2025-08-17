@@ -21,7 +21,7 @@ class TestUtilityMethods:
             mock_make_session.return_value = mock_session
 
             client = KoboClient(
-                server_url="https://test.com", token="test", cache=False
+                server_url="https://test.com", token="test", cache_enabled=False
             )
             result = client.ping()
 
@@ -41,7 +41,7 @@ class TestUtilityMethods:
             mock_make_session.return_value = mock_session
 
             client = KoboClient(
-                server_url="https://test.com", token="test", cache=False
+                server_url="https://test.com", token="test", cache_enabled=False
             )
             result = client.ping()
 
@@ -55,7 +55,7 @@ class TestUtilityMethods:
             mock_make_session.return_value = mock_session
 
             client = KoboClient(
-                server_url="https://test.com", token="test", cache=False
+                server_url="https://test.com", token="test", cache_enabled=False
             )
             result = client.ping()
 
@@ -70,7 +70,9 @@ class TestUtilityMethods:
             mock_session.cache = mock_cache
             mock_make_session.return_value = mock_session
 
-            client = KoboClient(server_url="https://test.com", token="test", cache=True)
+            client = KoboClient(
+                server_url="https://test.com", token="test", cache_enabled=True
+            )
             client.clear_cache()
 
             # Verify cache.clear was called
@@ -84,7 +86,7 @@ class TestUtilityMethods:
             mock_make_session.return_value = mock_session
 
             client = KoboClient(
-                server_url="https://test.com", token="test", cache=False
+                server_url="https://test.com", token="test", cache_enabled=False
             )
 
             # Should not raise error when cache is disabled
@@ -97,7 +99,9 @@ class TestUtilityMethods:
             # Remove cache attribute to simulate regular session
             mock_make_session.return_value = mock_session
 
-            client = KoboClient(server_url="https://test.com", token="test", cache=True)
+            client = KoboClient(
+                server_url="https://test.com", token="test", cache_enabled=True
+            )
             client.cache_enabled = True
 
             # Should not do anything when hasattr(session, 'cache') is False
@@ -109,7 +113,7 @@ class TestUtilityMethods:
             mock_get.return_value = {"results": [{"uid": "test1"}, {"uid": "test2"}]}
 
             client = KoboClient(
-                server_url="https://test.com", token="test", cache=False
+                server_url="https://test.com", token="test", cache_enabled=False
             )
             result = client.get_assets()
 
@@ -123,7 +127,7 @@ class TestUtilityMethods:
             mock_get.return_value = expected_asset
 
             client = KoboClient(
-                server_url="https://test.com", token="test", cache=False
+                server_url="https://test.com", token="test", cache_enabled=False
             )
             result = client.get_asset("test123")
 
@@ -136,7 +140,7 @@ class TestUtilityMethods:
             mock_get.return_value = {}  # No 'results' key
 
             client = KoboClient(
-                server_url="https://test.com", token="test", cache=False
+                server_url="https://test.com", token="test", cache_enabled=False
             )
             result = client.get_assets()
 
@@ -152,7 +156,7 @@ class TestUtilityMethods:
             mock_get.return_value = {"results": expected_assets}
 
             client = KoboClient(
-                server_url="https://test.com", token="test", cache=False
+                server_url="https://test.com", token="test", cache_enabled=False
             )
             result = client.get_assets()
 

@@ -19,7 +19,7 @@ class TestHttpMethods:
             mock_make_session.return_value = mock_session
 
             client = KoboClient(
-                server_url="https://test.com", token="test", cache=False
+                server_url="https://test.com", token="test", cache_enabled=False
             )
             result = client._get("api/v2/assets")
 
@@ -39,7 +39,7 @@ class TestHttpMethods:
             mock_make_session.return_value = mock_session
 
             client = KoboClient(
-                server_url="https://test.com", token="test", cache=False
+                server_url="https://test.com", token="test", cache_enabled=False
             )
 
             # Test various path formats
@@ -66,7 +66,7 @@ class TestHttpMethods:
             mock_make_session.return_value = mock_session
 
             client = KoboClient(
-                server_url="https://test.com", token="test", cache=False
+                server_url="https://test.com", token="test", cache_enabled=False
             )
 
             with pytest.raises(requests.HTTPError):
@@ -82,7 +82,7 @@ class TestHttpMethods:
             mock_make_session.return_value = mock_session
 
             client = KoboClient(
-                server_url="https://test.com", token="test", cache=False
+                server_url="https://test.com", token="test", cache_enabled=False
             )
 
             # Test with additional parameters
