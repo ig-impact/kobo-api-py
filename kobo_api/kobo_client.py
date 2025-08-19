@@ -124,3 +124,15 @@ class KoboClient:
         """Get the hash of all assets."""
         response = self._get("api/v2/assets/hash")
         return response.get("hash", "")
+
+    def get_project_views(self) -> dict[str, Any]:
+        """Get a list of project views from the Kobo server."""
+        return self._get("api/v2/project-views")
+
+    def get_project_view(self, view_id: str) -> dict[str, Any]:
+        """Get a single project view by its ID."""
+        return self._get(f"api/v2/project-views/{view_id}")
+
+    def get_project_view_assets(self, view_id: str) -> dict[str, Any]:
+        """Get assets associated with a project view."""
+        return self._get(f"api/v2/project-views/{view_id}/assets")
