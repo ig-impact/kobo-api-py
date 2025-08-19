@@ -1,6 +1,6 @@
 # pyright: reportAny=false
 # pyright: reportExplicitAny=false
-from collections.abc import Mapping
+from collections.abc import Iterator, Mapping
 from typing import Any
 from urllib.parse import urljoin
 
@@ -133,6 +133,13 @@ class KoboClient:
         """Get a single project view by its ID."""
         return self._get(f"api/v2/project-views/{view_id}")
 
-    def get_project_view_assets(self, view_id: str) -> dict[str, Any]:
-        """Get assets associated with a project view."""
-        return self._get(f"api/v2/project-views/{view_id}/assets")
+    def get_project_view_assets(self, view_id: str) -> Iterator[dict[str, Any]]:
+        """Yield assets associated with a project view, following API pagination."""
+        response = self._get(f"api/v2/project-views/{view_id}/assets")
+        yield from response.get("results", [])
+
+        next_url = response.get("next")
+        while next_url:
+            response = self._get(next_url)
+            yield from response.get("results", [])
+            next_url = response.get("next")
