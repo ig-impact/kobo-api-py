@@ -11,6 +11,7 @@ class TestInternalGet:
         with patch.object(KoboClient, "_make_session") as mock_make_sess:
             mock_session = Mock()
             mock_resp = Mock()
+            mock_resp.status_code = 200
             mock_resp.json.return_value = {"ok": True}
             mock_session.get.return_value = mock_resp
             mock_make_sess.return_value = mock_session
@@ -40,7 +41,9 @@ class TestInternalGet:
         with patch.object(KoboClient, "_make_session") as mock_make_sess:
             mock_session = Mock()
             mock_resp = Mock()
+            mock_resp.status_code = 200
             mock_resp.json.return_value = {"ok": True}
+            mock_resp.raise_for_status = Mock()
             mock_session.get.return_value = mock_resp
             mock_make_sess.return_value = mock_session
 

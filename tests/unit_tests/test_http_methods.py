@@ -26,7 +26,6 @@ class TestHttpMethods:
             # Verify URL construction and response handling
             expected_url = "https://test.com/api/v2/assets"
             mock_session.get.assert_called_once_with(expected_url)
-            mock_response.raise_for_status.assert_called_once()
             assert result == mock_response.json.return_value
 
     def test_get_method_url_construction(self):
@@ -35,6 +34,7 @@ class TestHttpMethods:
             mock_session = Mock()
             mock_response = Mock()
             mock_response.json.return_value = {"test": "data"}
+            mock_response.status_code = 200
             mock_session.get.return_value = mock_response
             mock_make_session.return_value = mock_session
 
@@ -60,7 +60,7 @@ class TestHttpMethods:
             mock_session = Mock()
             mock_response = Mock()
             mock_response.raise_for_status.side_effect = requests.HTTPError(
-                "404 Not Found"
+                {"details": "Not Found", "status_code": 404}
             )
             mock_session.get.return_value = mock_response
             mock_make_session.return_value = mock_session
@@ -77,6 +77,7 @@ class TestHttpMethods:
         with patch.object(KoboClient, "_make_session") as mock_make_session:
             mock_session = Mock()
             mock_response = Mock()
+            mock_response.status_code = 200
             mock_response.json.return_value = {"data": "test"}
             mock_session.get.return_value = mock_response
             mock_make_session.return_value = mock_session

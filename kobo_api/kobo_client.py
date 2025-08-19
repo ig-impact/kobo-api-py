@@ -77,8 +77,17 @@ class KoboClient:
         url = urljoin(f"{self.server_url}/", path.lstrip("/"))
         logger.debug(f"GET request to {url}")
         response = self.session.get(url, **kwargs)
-        response.raise_for_status()
-        return response.json()
+
+        if response.status_code == 200:
+            return response.json()
+
+        try:
+            payload = response.json()
+        except ValueError:
+            payload = {"details": "Invalid JSON response"}
+        raise requests.HTTPError(
+            f"GET request failed with status {response.status_code}: {payload.get('detail')}"
+        )
 
     def clear_cache(self) -> None:
         """Clear the entire cache."""

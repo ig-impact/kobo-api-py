@@ -26,4 +26,8 @@ dev = [
     "pytest-mock>=3.14.1",
     "responses>=0.25.8",
     "requests-mock>=1.12.1",
+    "ipdb>=0.13.13",
+    "pytest-watcher>=0.4.3",
+    "pytest-sugar>=1.1.0",
+    "pytest-testmon>=2.1.3",
 ]
