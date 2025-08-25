@@ -148,11 +148,11 @@ class KoboClient:
         """Yield assets associated with a project view, following API pagination."""
         response = self._get(f"api/v2/project-views/{view_id}/assets")
         for asset in response.get("results", []):
-            yield from KoboAsset.model_validate(asset)
+            yield KoboAsset.model_validate(asset)
 
         next_url = response.get("next")
         while next_url:
             response = self._get(next_url)
             for asset in response.get("results", []):
-                yield from KoboAsset.model_validate(asset)
+                yield KoboAsset.model_validate(asset)
             next_url = response.get("next")
