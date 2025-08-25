@@ -56,7 +56,7 @@ class KoboAssetSummary(BaseModel):
     columns: list[str]
     languages: list[str]
     row_count: int
-    default_translation: str
+    default_translation: str | None = None
 
 
 class KoboSurveyNode(BaseModel):
