@@ -52,7 +52,7 @@ class KoboAssetSettings(BaseModel):
 
 class KoboAssetSummary(BaseModel):
     geo: bool
-    labels: list[str]
+    labels: list[str] | None = None
     columns: list[str]
     languages: list[str]
     row_count: int
