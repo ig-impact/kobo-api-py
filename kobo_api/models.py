@@ -79,7 +79,7 @@ class KoboAssetContent(BaseModel):
 class KoboAsset(BaseModel):
     url: str
     uid: str
-    kind: str
+    kind: str | None = None
     settings: KoboAssetSettings
     asset_type: str
     summary: KoboAssetSummary | None = None
