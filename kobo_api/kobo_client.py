@@ -11,6 +11,10 @@ from loguru import logger
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+from kobo_api.models import KoboProjectView
+
+from .models import KoboAsset
+
 
 class KoboClient:
     def __init__(
@@ -107,14 +111,20 @@ class KoboClient:
         except requests.RequestException:
             return False
 
-    def get_assets(self) -> list[dict[str, Any]]:
+    def get_assets(self) -> Iterator[dict[str, Any]]:
         """Get a list of assets from the Kobo server."""
         response = self._get("api/v2/assets")
-        return response.get("results", [])
+        yield from response.get("results", [])
+        next_url = response.get("next")
+        while next_url:
+            response = self._get(next_url)
+            yield from response.get("results", [])
+            next_url = response.get("next")
 
-    def get_asset(self, asset_id: str) -> dict[str, Any]:
+    def get_asset(self, asset_id: str) -> KoboAsset:
         """Get a single asset by its ID."""
-        return self._get(f"api/v2/assets/{asset_id}")
+        response_json = self._get(f"api/v2/assets/{asset_id}")
+        return KoboAsset.model_validate(response_json)
 
     def get_asset_data(self, asset_id: str, **kwargs) -> dict[str, Any]:
         """Get asset data (submissions)."""
@@ -129,17 +139,20 @@ class KoboClient:
         """Get a list of project views from the Kobo server."""
         return self._get("api/v2/project-views")
 
-    def get_project_view(self, view_id: str) -> dict[str, Any]:
+    def get_project_view(self, view_id: str) -> KoboProjectView:
         """Get a single project view by its ID."""
-        return self._get(f"api/v2/project-views/{view_id}")
+        response_json = self._get(f"api/v2/project-views/{view_id}")
+        return KoboProjectView.model_validate(response_json)
 
-    def get_project_view_assets(self, view_id: str) -> Iterator[dict[str, Any]]:
+    def get_project_view_assets(self, view_id: str) -> Iterator[KoboAsset]:
         """Yield assets associated with a project view, following API pagination."""
         response = self._get(f"api/v2/project-views/{view_id}/assets")
-        yield from response.get("results", [])
+        for asset in response.get("results", []):
+            yield from KoboAsset.model_validate(asset)
 
         next_url = response.get("next")
         while next_url:
             response = self._get(next_url)
-            yield from response.get("results", [])
+            for asset in response.get("results", []):
+                yield from KoboAsset.model_validate(asset)
             next_url = response.get("next")

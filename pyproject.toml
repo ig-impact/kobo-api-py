@@ -7,8 +7,10 @@ requires-python = ">=3.10"
 dependencies = [
     "dotenv>=0.9.9",
     "loguru>=0.7.3",
+    "pydantic>=2.11.7",
     "requests>=2.32.4",
     "requests-cache>=1.2.1",
+    "rich>=14.1.0",
 ]
 license = {text = "MIT"}
 authors = [
